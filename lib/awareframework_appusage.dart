@@ -154,9 +154,14 @@ class AppUsageData extends AwareData {
   AppUsageData() : this.from({});
   String packageName = "";
   String eventType = "";
+  int timestamp = 0;
+  int timezone = 0;
+
   AppUsageData.from(Map<String, dynamic>? data) : super(data ?? {}) {
     if (data != null) {
       packageName = data["packageName"] ?? "";
+      timestamp = data["timeStamp"] ?? 0;
+      timezone = data["timeZone"] ?? 0;
       switch(data["eventType"]){
         case 1:
           eventType = "ACTIVITY_RESUMED";
