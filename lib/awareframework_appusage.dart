@@ -133,6 +133,10 @@ class AppUsageSensor extends AwareSensor {
 ///   ..frequency = 100;
 /// ```
 class AppUsageSensorConfig extends AwareSensorConfig {
+  int interval = 10000;
+  List<String> usageAppDisplaynames = [""];
+  List<int> usageAppEventTypes = [];
+
   AppUsageSensorConfig();
   @override
   Map<String, dynamic> toMap() {
@@ -148,7 +152,37 @@ class AppUsageSensorConfig extends AwareSensorConfig {
 ///
 class AppUsageData extends AwareData {
   AppUsageData() : this.from({});
+  String packageName = "";
+  String eventType = "";
   AppUsageData.from(Map<String, dynamic>? data) : super(data ?? {}) {
-    if (data != null) {}
+    if (data != null) {
+      packageName = data["packageName"] ?? "";
+      switch(data["eventType"]){
+        case 1:
+          eventType = "ACTIVITY_RESUMED";
+          break;
+        case 2:
+          eventType = "ACTIVITY_PAUSED";
+          break;
+
+      }
+    }
   }
 }
+//
+//
+// int timestamp = 0;
+// String deviceId = "";
+// String label = "";
+// int timezone = 0;
+// String os = "";
+// int jsonVersion = 0;
+//
+// AwareData(Map<String, dynamic> data) {
+//   deviceId = data["deviceId"] ?? "";
+//   timestamp = data["timestamp"] ?? 0;
+//   label = data["label"] ?? "";
+//   timezone = data["timezone"] ?? 0;
+//   os = data["os"] ?? "";
+//   jsonVersion = data["jsonVersion"] ?? 0;
+//   source = data;

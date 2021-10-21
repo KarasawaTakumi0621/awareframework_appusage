@@ -40,6 +40,6 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api 'com.github.awareframework:com.awareframework.android.core:master-SNAPSHOT'
-    implementation 'com.github.KarasawaTakumi0621:aware_appusage_module:v0.14'
+    implementation 'com.github.KarasawaTakumi0621:aware_appusage_module:0.15'
 
 }
