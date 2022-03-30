@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:awareframework_appusage/awareframework_appusage.dart';
-import 'package:awareframework_core/awareframework_core.dart';
-
 
 void main() => runApp(new MyApp());
 
@@ -24,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     var config = AppUsageSensorConfig();
-    // config.usageAppDisplaynames = ["com.twitter.android", "com.facebook.orca", "com.facebook.katana", "com.instagram.android", "jp.naver.line.android", "com.ss.android.ugc.trill"];
+    config.usageAppDisplaynames = ["com.twitter.android", "com.facebook.orca", "com.facebook.katana", "com.instagram.android", "jp.naver.line.android", "com.ss.android.ugc.trill"];
     // config.usageAppEventTypes = [1,2];
 
     // // init sensor without a context-card
@@ -42,13 +39,10 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Text("最新のデータ"),
-
             Text("packageName: ${widget.data.packageName}"),
             Text("eventType: ${widget.data.eventType}"),
             Text("Timestamp: ${widget.data.timestamp}"),
             Text("TimeZone: ${widget.data.timezone}"),
-
             TextButton(
                 onPressed: () {
                   widget.sensor.start();
@@ -75,38 +69,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-//
-// void main() => runApp(new MyApp());
-//
-// class MyApp extends StatefulWidget {
-//   @override
-//   _MyAppState createState() => new _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   late AppUsageSensor sensor;
-//   late AppUsageSensorConfig config;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//
-//     config = AppUsageSensorConfig()..debug = true;
-//
-//     sensor = new AppUsageSensor.init(config);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return new MaterialApp(
-//       home: new Scaffold(
-//         appBar: new AppBar(
-//           title: const Text('Plugin Example App'),
-//         ),
-//         body: Text('App Usage'),
-//       ),
-//     );
-//   }
-// }
