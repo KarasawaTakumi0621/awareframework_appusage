@@ -1,6 +1,6 @@
-# Aware 
-
-TODO
+# awareframework_appusage
+This plugin enables UsageStatsEvent data streaming, DB storage, storage on AWARE-micro server, etc. using AWARE Framework's Core infrastructure.
+This plugin only works with the Android version.
 
 ## Install the plugin into project
 1. Edit `pubspec.yaml`
@@ -20,15 +20,11 @@ import 'package:awareframework_core/awareframework_core.dart';
 - `start()`
 - `stop()` 
 - `sync(force: Boolean)`
-- `enable()`
-- `disable()`
-- `isEnable()`
 
 ### Configuration Keys
-TODO
-- `period`: Float: Period to save data in minutes. (default = 1)
-- `threshold`: Double: If set, do not record consecutive points if change in value is less than the set value.
-- `enabled`: Boolean Sensor is enabled or not. (default = false)
+- `awareUsageAppNotificationTitle`: Title of the notification when the Foreground Service is activated
+- `awareUsageAppNotificationDescription`: Description of the notification when the Foreground Service is activated
+- `awareUsageAppNoticationId`: ID of the notification when the Foreground Service is activated
 - `debug`: Boolean enable/disable logging to Logcat. (default = false)
 - `label`: String Label for the data. (default = "")
 - `deviceId`: String Id of the device that will be associated with the events and the sensor. (default = "")
@@ -36,42 +32,67 @@ TODO
 - `dbType`: Engine Which db engine to use for saving data. (default = 0) (0 = None, 1 = Room or Realm)
 - `dbPath`: String Path of the database. (default = "aware_appusage")
 - `dbHost`: String Host for syncing the database. (default = null)
+- `interval`: Data samples to collect per msec (default = 10000)
 
 ## Data Representations
 The data representations is different between Android and iOS. Following links provide the information.
-- [Android](https://github.com/awareframework/com.awareframework.android.sensor.appusage)
+
+### AppUsage Data
+Contains the raw sensor data.
+| Field           | Type   | Description                                                         |
+| ---------       | ------ | ------------------------------------------------------------------- |
+| timestamp       | Long   | Unix Time for starting/stopping applications, etc.                  |
+| packageName     | String | Application name of the event that occurred                         |
+| eventType       | Int    | Event ID of UsageEvent. https://developer.android.com/reference/kotlin/android/app/usage/UsageEvents.Event |
+| label           | String | Customizable label. Useful for data calibration or traceability     |
+| deviceId        | String | AWARE device UUID                                                   |
+| timezone        | Int    | Raw timezone offset of the device                              |
+| os              | String | Operating system of the device (ex. android)                        |
 
 ## Example usage
 ```dart
-// init config
-var config = SensorConfig()
-  ..debug = true
-  ..label = "label";
+var config = AppUsageSensorConfig();
+    config.usageAppDisplaynames = ["com.twitter.android", "com.facebook.orca", "com.facebook.katana", "com.instagram.android", "jp.naver.line.android", "com.ss.android.ugc.trill"];
+widget.sensor = new AppUsageSensor.init(config);
 
-// init sensor
-var sensor = new Sensor(config);
-
-void mathod(){
-    /// start 
-    sensor.start();
-    
-    /// set observer
-    sensor.onDataChanged.listen((Map<String,dynamic> result){
-      setState((){
-        // Your code here
-      });
-    });
-    
-    /// stop
-    sensor.stop();
-    
-    /// sync
-    sensor.sync(true);  
-    
-    // make a sensor care by the following code
-    var card = new Card(sensor:sensor);
-    // NEXT: Add the card instance into a target Widget.
-}
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: const Text('Plugin Example App'),
+        ),
+        body: Column(
+          children: [
+            Text("packageName: ${widget.data.packageName}"),
+            Text("eventType: ${widget.data.eventType}"),
+            Text("Timestamp: ${widget.data.timestamp}"),
+            Text("TimeZone: ${widget.data.timezone}"),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.start();
+                  widget.sensor.onDataChanged.listen((data) {
+                    setState(() {
+                      widget.data = data;
+                    });
+                  });
+                },
+                child: Text("Start")),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.stop();
+                },
+                child: Text("Stop")),
+            TextButton(
+                onPressed: () {
+                  widget.sensor.sync();
+                },
+                child: Text("Sync")),
+          ],
+        ),
+      ),
+    );
+  }
 
 ```
 
