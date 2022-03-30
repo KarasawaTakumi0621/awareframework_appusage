@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:awareframework_appusage/awareframework_appusage.dart';
 import 'package:awareframework_core/awareframework_core.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 
 void main() => runApp(new MyApp());

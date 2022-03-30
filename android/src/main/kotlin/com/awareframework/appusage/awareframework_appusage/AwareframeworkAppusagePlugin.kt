@@ -193,6 +193,9 @@ open class AwareFlutterPluginCore: StreamHandler, MethodCallHandler {
         usageAppEventTypes = mutableListOf(1,2)
         dbType = Engine.DatabaseType.ROOM
         debug = true
+        awareUsageAppNotificationTitle = "studying now"
+        awareUsageAppNotificationDescription = "App usage history is being retrieved."
+        awareUsageAppNoticationId = "appusage_notification"
 
         sensorObserver = object : AppusageSensor.Observer {
           override fun onDataChanged(datas: MutableList<AppusageData>?) {
@@ -210,34 +213,7 @@ open class AwareFlutterPluginCore: StreamHandler, MethodCallHandler {
           }
         }
       })
-
-
-
-//      AppusageSensor.start(appContext, config.apply {
-//        println("apusagesensor start")
-//
-//        sensorObserver = object : AppusageSensor.Observer {
-//
-//          override fun onDataChanged(datas: MutableList<AppusageData>?) {
-//            for( handler in streamHandlers) {
-//              handler.eventSink?.let {
-//                println(datas)
-////                println("abababa")
-//
-////                val d = mapOf<String, Any>("x" to data.x, "y" to data.y, "z" to data.z,
-////                  "accuracy" to data.accuracy, "timezone" to data.timezone,
-////                  "eventTimestamp" to data.eventTimestamp, "timestamp" to data.timestamp);
-////                it.success(d)
-//              }
-//            }
-//          }
-//
-//        }
-//        dbType = Engine.DatabaseType.ROOM
-//        debug = true
-//      })
     }
-
   }
 
   open fun stop(call: MethodCall, result: Result) {
