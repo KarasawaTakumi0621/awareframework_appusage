@@ -41,13 +41,11 @@ The data representations is different between Android and iOS. Following links p
 Contains the raw sensor data.
 | Field           | Type   | Description                                                         |
 | ---------       | ------ | ------------------------------------------------------------------- |
-| eventTimestamp  | Long   | Unix Time for starting/stopping applications, etc.                  |
-| appPackageName  | String | Application name of the event that occurred                         |
+| timestamp       | Long   | Unix Time for starting/stopping applications, etc.                  |
+| packageName     | String | Application name of the event that occurred                         |
 | eventType       | Int    | Event ID of UsageEvent. https://developer.android.com/reference/kotlin/android/app/usage/UsageEvents.Event |
 | label           | String | Customizable label. Useful for data calibration or traceability     |
 | deviceId        | String | AWARE device UUID                                                   |
-| label           | String | Customizable label. Useful for data calibration or traceability     |
-| timestamp       | Long   | unixtime milliseconds since 1970                                    |
 | timezone        | Int    | Raw timezone offset of the device                              |
 | os              | String | Operating system of the device (ex. android)                        |
 
